@@ -1,36 +1,29 @@
 package main
+
 import (
+	"./matrices"
 	"fmt"
-	"errors"
+	"reflect"
+	"time"
 )
 
-func MultiplyMatrices(first, other [][]int) {
-	if first == nil || other == nil || len(first) == 0 || len(other) == 0 {
-		panic(errors.New("either matrix is nil or empty"))
-	}
-	if len(first[0]) != len(other) {
-		panic(errors.New("matrices are incompatible"))
-	}
+const size = 512
 
-	for i, firstRow := range first {
-		otherRow := other[i]
-		for j := range other {
-			sum := 0
+func main()  {
+	fmt.Printf("Generating matrices of size %v...\n", size)
 
-		}
-	}
-}
+	first := matrices.GetRandomMatr(size, size)
+	fmt.Println("First ready.")
+	other := matrices.GetRandomMatr(size, size)
+	fmt.Println("Second ready. Multiplying...")
+	fmt.Println()
 
-func addValue(s *[]int) {
-	d := append(*s, 3)
-	(*s)[0] = 0
-	fmt.Printf("In addValue: s is %v\n", &s)
-	fmt.Printf("%v\n", s==&d)
-}
+	t0 := time.Now()
+	resSingle := matrices.MultiplyMatrices(first, other)
+	fmt.Printf("Single-threaded time spent: %v\n", time.Now().Sub(t0))
 
-func main() {
-	s := make([]int, 2, 3)
-	fmt.Printf("In main, before addValue: s is %v %v\n", s, len(s))
-	addValue(&s)
-	fmt.Printf("In main, after addValue: s is %v\n", s)
+	t0 = time.Now()
+	resMulti := matrices.GoMultiplyMatrices(first, other)
+	fmt.Printf("Go-routines time spent: %v\n", time.Now().Sub(t0))
+	fmt.Printf("Results are equal: %v\n\n", reflect.DeepEqual(resSingle, resMulti))
 }
