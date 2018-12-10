@@ -49,6 +49,9 @@ func GoMultiplyMatrices(first, other [][]int) [][]int {
 	var wg sync.WaitGroup
 	iLimit := size / maxProcs
 	step := func (start, count int, updateWg bool) {
+		if updateWg {
+			defer wg.Done()
+		}
 		//logger.Printf("start at %v", start)
 		//logger.Printf("%v %v\n", i, i + count)
 		for i := start; i < start + count; i++ {
@@ -61,9 +64,6 @@ func GoMultiplyMatrices(first, other [][]int) [][]int {
 				}
 				result[i][j] = sum
 			}
-		}
-		if updateWg {
-			wg.Done()
 		}
 	}
 
