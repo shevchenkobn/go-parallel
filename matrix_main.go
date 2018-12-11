@@ -1,10 +1,10 @@
 package main
 
 import (
-	"./matrices"
 	"fmt"
-	"reflect"
 	"time"
+	"reflect"
+	"./matrices"
 )
 
 const size = 512
@@ -27,3 +27,4 @@ func main()  {
 	fmt.Printf("Go-routines time spent: %v\n", time.Now().Sub(t0))
 	fmt.Printf("Results are equal: %v\n\n", reflect.DeepEqual(resSingle, resMulti))
 }
+
