@@ -6,5 +6,5 @@ import (
 )
 
 func main() {
-	philosophers.RunPhilosophers(50, time.Second * 2)
+	philosophers.RunPhilosophers(50, time.Second * 4)
 }
